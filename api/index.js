@@ -1,7 +1,12 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var settings = require('./settings.json')
 
 const app = express();
+
+app.post('/api/text', function(req, res) {
+	res.json(settings);
+});
 
 app.get('/api', function(req, res) {
 	res.json({
