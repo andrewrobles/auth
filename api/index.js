@@ -1,10 +1,29 @@
-var express = require('express');
-var jwt = require('jsonwebtoken');
-var settings = require('./settings.json')
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const settings = require('./settings.json');
+const client = require('twilio')(settings.twilioAccountSid, settings.twilioAuthToken);
+const verifySid = "VA89265de040257e529fbe693eafc50e8f";
 
 const app = express();
 
 app.post('/api/text', function(req, res) {
+	client.verify.v2
+	.services(verifySid)
+	.verifications.create({ to: "+18053126420", channel: "sms" })
+	.then((verification) => console.log(verification.status))
+	.then(() => {
+	    const readline = require("readline").createInterface({
+	      input: process.stdin,
+	      output: process.stdout,
+	    });
+	    readline.question("Please enter the OTP:", (otpCode) => {
+	      client.verify.v2
+         	.services(verifySid)
+		.verificationChecks.create({ to: "+18053126420", code: otpCode })
+		.then((verification_check) => console.log(verification_check.status))
+  		.then(() => readline.close());
+	   });
+	});
 	res.json(settings);
 });
 
