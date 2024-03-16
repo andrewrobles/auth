@@ -2,10 +2,6 @@ The goal for this project is to provide a way for developers to integrate text m
 
 ### Setup
 ```
-git clone https://github.com/andrewrobles/Macroauth.git
-
-cd Macroauth
-
 npm install
 
 npx nodemon --watch
